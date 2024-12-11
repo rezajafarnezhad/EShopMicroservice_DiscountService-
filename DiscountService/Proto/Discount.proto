@@ -1,0 +1,36 @@
+syntax = "proto3";
+
+option csharp_namespace = "DiscountService.Proto";
+
+
+
+service DiscountServiceProto
+{
+	rpc GetDiscountBy(RequestGetDiscountBy) returns (ResponseGetDicountBy);
+	rpc UseDiscountBy(RequestGetDiscountBy) returns (ResponseStatus);
+	rpc AddDiscount(RequestAddDicount) returns (ResponseStatus);
+
+}
+
+message RequestGetDiscountBy{
+	string code =1;
+}
+
+message ResponseGetDicountBy{
+
+    string id =1;
+    string code =2;
+    int64  Amount=3;
+    bool Used = 4;
+}
+
+message RequestAddDicount{
+
+    string code =1;
+    int64  Amount=2;
+}
+
+message ResponseStatus
+{
+    bool IsSuccess = 1;
+}
