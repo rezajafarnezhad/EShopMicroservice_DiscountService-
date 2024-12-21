@@ -7,6 +7,7 @@ option csharp_namespace = "DiscountService.Proto";
 service DiscountServiceProto
 {
 	rpc GetDiscountBy(RequestGetDiscountBy) returns (ResponseGetDicountBy);
+	rpc GetDiscountById(RequestGetDiscountById) returns (ResponseGetDicountBy);
 	rpc UseDiscountBy(RequestGetDiscountBy) returns (ResponseStatus);
 	rpc AddDiscount(RequestAddDicount) returns (ResponseStatus);
 
@@ -15,8 +16,19 @@ service DiscountServiceProto
 message RequestGetDiscountBy{
 	string code =1;
 }
+message RequestGetDiscountById{
+	string Id =1;
+}
 
 message ResponseGetDicountBy{
+
+   DiscountInfo date = 1;
+   bool IsSuccess=2;
+   string message= 3;
+}
+
+
+message DiscountInfo{
 
     string id =1;
     string code =2;

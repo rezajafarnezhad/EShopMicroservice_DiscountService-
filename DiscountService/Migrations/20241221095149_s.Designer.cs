@@ -12,8 +12,8 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace DiscountService.Migrations
 {
     [DbContext(typeof(DiscountDatebaseContext))]
-    [Migration("20241211080349_init_discountdateBase")]
-    partial class init_discountdateBase
+    [Migration("20241221095149_s")]
+    partial class s
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -35,6 +35,7 @@ namespace DiscountService.Migrations
                         .HasColumnType("decimal(18,2)");
 
                     b.Property<string>("Code")
+                        .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<bool>("Used")
@@ -42,7 +43,7 @@ namespace DiscountService.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("Baskets");
+                    b.ToTable("Discounts");
                 });
 #pragma warning restore 612, 618
         }

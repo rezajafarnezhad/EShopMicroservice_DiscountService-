@@ -1,3 +1,4 @@
+using DiscountService.Grpc;
 using DiscountService.Infrastructure;
 using DiscountService.Services;
 using Microsoft.EntityFrameworkCore;
@@ -8,6 +9,7 @@ var builder = WebApplication.CreateBuilder(args);
 builder.Services.AddControllers();
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
+builder.Services.AddGrpc();
 
 builder.Services.AddDbContext<DiscountDatebaseContext>(op =>
     op.UseSqlServer(builder.Configuration.GetConnectionString("SqlServer")));
@@ -25,6 +27,6 @@ app.UseHttpsRedirection();
 
 app.UseAuthorization();
 
-app.MapControllers();
+app.MapGrpcService<GrpcDiscountService>();
 
 app.Run();

@@ -12,10 +12,45 @@ public class GrpcDiscountService : DiscountServiceProto.DiscountServiceProtoBase
     {
         _discountService = discountService;
     }
-    public override async Task<ResponseGetDicountBy> GetDiscountBy(RequestGetDiscountBy request, ServerCallContext context)
+
+    public override async Task<ResponseGetDicountBy> GetDiscountById(RequestGetDiscountById request, ServerCallContext context)
+    {
+        var discount = await _discountService.GetDiscountById(new Guid(request.Id));
+        if (discount is null)
+            return new ResponseGetDicountBy()
+            {
+                IsSuccess = false,
+                Message = "",
+                Date = null
+            };
+
+        return new ResponseGetDicountBy()
+        {
+            IsSuccess = true,
+            Message = "",
+            Date = discount.Adapt(new DiscountInfo())
+        };
+    }
+
+    public override async Task<ResponseGetDicountBy> GetDiscountBy(RequestGetDiscountBy request,
+        ServerCallContext context)
     {
         var discount = await _discountService.GetDiscountBy(request.Code);
-        return discount.Adapt(new ResponseGetDicountBy());
+
+        if (discount is null)
+            return new ResponseGetDicountBy()
+            {
+                IsSuccess = false,
+                Message = "",
+                Date = null
+            };
+
+        return new ResponseGetDicountBy()
+        {
+            IsSuccess = true,
+            Message = "",
+            Date = discount.Adapt(new DiscountInfo())
+        };
     }
 
     public override async Task<ResponseStatus> UseDiscountBy(RequestGetDiscountBy request, ServerCallContext context)

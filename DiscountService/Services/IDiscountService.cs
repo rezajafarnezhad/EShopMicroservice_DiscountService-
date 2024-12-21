@@ -9,6 +9,7 @@ namespace DiscountService.Services;
 public interface IDiscountService
 {
     Task<DiscountModel> GetDiscountBy(string code);
+    Task<DiscountModel> GetDiscountById(Guid id);
     Task<bool> UseDiscountBy(string code);
     Task<bool> AddDiscount(string code, decimal amount);
 
@@ -27,14 +28,24 @@ public class DiscountService : IDiscountService
     {
         var discount = await _context.Discounts.AsNoTracking().SingleOrDefaultAsync(c => c.Code == code);
         if (discount is null)
-            throw new Exception("Discount not found ...");
+            return new DiscountModel();
+
+        return discount.Adapt(new DiscountModel());
+    }
+
+    public async Task<DiscountModel> GetDiscountById(Guid id)
+    {
+        var discount = await _context.Discounts.AsNoTracking().SingleOrDefaultAsync(c => c.Id == id);
+        if (discount is null)
+            return new DiscountModel();
+
 
         return discount.Adapt(new DiscountModel());
     }
 
     public async Task<bool> UseDiscountBy(string code)
     {
-        var discount = await _context.Discounts.AsNoTracking().SingleOrDefaultAsync(c => c.Code == code);
+        var discount = await _context.Discounts.SingleOrDefaultAsync(c => c.Code == code);
         if (discount is null)
             throw new Exception("Discount not found ...");
 

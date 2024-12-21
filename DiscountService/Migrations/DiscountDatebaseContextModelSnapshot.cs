@@ -32,6 +32,7 @@ namespace DiscountService.Migrations
                         .HasColumnType("decimal(18,2)");
 
                     b.Property<string>("Code")
+                        .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<bool>("Used")
@@ -39,7 +40,7 @@ namespace DiscountService.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("Baskets");
+                    b.ToTable("Discounts");
                 });
 #pragma warning restore 612, 618
         }
